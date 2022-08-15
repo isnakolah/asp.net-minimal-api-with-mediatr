@@ -1,20 +1,16 @@
 ﻿using System.Linq.Expressions;
-using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
-using MinimalApiWithMediatr.Common.Mappings;
 using MinimalApiWithMediatr.Common.Models;
-using IConfigurationProvider = AutoMapper.IConfigurationProvider;
 
 namespace MinimalApiWithMediatr.Data;
 
 public class Repository : IRepository
 { 
     private readonly ApplicationDbContext _context;
-    private readonly IConfigurationProvider _mapperConfig;
 
-    public Repository(ApplicationDbContext dbContext, IConfigurationProvider mapperConfig)
+    public Repository(ApplicationDbContext dbContext)
     {
-        (_context, _mapperConfig) = (dbContext, mapperConfig);
+        _context = dbContext;
     }
 
     public IQueryable<T> GetQueryable<T>() 
@@ -63,10 +59,7 @@ public class Repository : IRepository
         where TIn : BaseEntity 
         where TOut : IMapFrom<TIn>
     {
-        return await _context.Set<TIn>()
-            .Where(predicate)
-            .ProjectTo<TOut>(_mapperConfig)
-            .FirstOrDefaultAsync(cancellationToken);
+        throw new NotImplementedException();
     }
 
     public async Task<IEnumerable<T>> ListAsync<T>() 
@@ -75,28 +68,44 @@ public class Repository : IRepository
         return await _context.Set<T>().ToListAsync();
     }
 
+    public async Task<IEnumerable<T>> ListAsync<T>(CancellationToken cancellationToken) 
+        where T : BaseEntity
+    {
+        return await _context.Set<T>().ToListAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<T>> ListAsync<T>(Expression<Func<T, bool>> predicate) 
+        where T : BaseEntity
+    {
+        return await _context.Set<T>()
+            .Where(predicate)
+            .ToArrayAsync();
+    }
+    
+    public async Task<IEnumerable<T>> ListAsync<T>(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken) 
+        where T : BaseEntity
+    {
+        return await _context.Set<T>()
+            .Where(predicate)
+            .ToArrayAsync(cancellationToken);
+    }
+
     public async Task<IEnumerable<TOut>> ListAsync<TIn, TOut>(CancellationToken cancellationToken = default) 
         where TIn : BaseEntity
     {
-        return await _context.Set<TIn>()
-            .ProjectTo<TOut>(_mapperConfig)
-            .ToArrayAsync(cancellationToken);
+        throw new NotImplementedException();
     }
 
     public async Task<IEnumerable<TOut>> ListAsync<TIn, TOut>(Expression<Func<TIn, bool>> predicate, CancellationToken cancellationToken = default)
         where TIn : BaseEntity
     {
-        return await _context.Set<TIn>()
-            .Where(predicate)
-            .ProjectTo<TOut>(_mapperConfig)
-            .ToArrayAsync(cancellationToken);
+        throw new NotImplementedException();
     }
 
     public void Add<T>(T entity) 
         where T : BaseEntity
     {
         _context.Set<T>().Add(entity);
-        _context.SaveChanges();
     }
 
     public void AddRange<T>(params T[] entities)

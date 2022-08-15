@@ -1,22 +1,21 @@
 ﻿using AutoMapper;
-using MinimalApiWithMediatr.Common.Models;
 
 namespace MinimalApiWithMediatr.Common.Mappings;
 
-public interface IMapFrom<in T> where T : BaseEntity
+public interface IMapFrom<in T>
 {
     void Mapping(Profile profile) => profile.CreateMap(typeof(T), GetType());
 }
 
-public interface IMapTo<out T> where T : BaseEntity
+public interface IMapTo<out T>
 {
     void Mapping(Profile profile) => profile.CreateMap(GetType(), typeof(T));
 }
 
-public abstract class MapTo<T> where T : class
+public abstract record MapTo<T>
 {
-    public T MapToEntity(IMapper mapper)
+    public T MapToEntity()
     {
-        return mapper.Map<T>(this);
+        return Mapper.Instance!.Map<T>(this);
     }
 }

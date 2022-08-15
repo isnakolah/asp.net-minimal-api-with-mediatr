@@ -2,9 +2,11 @@
 
 namespace MinimalApiWithMediatr.Todo.Entities;
 
+[Entity]
 public record TodoItem : BaseEntity
 {
-    public string Title { get; set; } = default!;
+    public required string Title { get; set; }
+    public required string Description { get; set; }
 
-    public TodoGroup Group { get; set; } = default!;
+    public TodoGroup? Group { get; set; }
 }

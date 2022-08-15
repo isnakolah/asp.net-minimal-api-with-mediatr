@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using MinimalApiWithMediatr.Common.Mappings;
 using MinimalApiWithMediatr.Common.Models;
 
 namespace MinimalApiWithMediatr.Common.Interfaces;
@@ -32,6 +31,15 @@ public interface IRepository
         where TOut : IMapFrom<TIn>;
 
     Task<IEnumerable<T>> ListAsync<T>()
+        where T : BaseEntity;
+
+    Task<IEnumerable<T>> ListAsync<T>(CancellationToken cancellationToken)
+        where T : BaseEntity;
+    
+    Task<IEnumerable<T>> ListAsync<T>(Expression<Func<T, bool>> predicate)
+        where T : BaseEntity;
+
+    Task<IEnumerable<T>> ListAsync<T>(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
         where T : BaseEntity;
 
     Task<IEnumerable<TOut>> ListAsync<TIn, TOut>(CancellationToken cancellationToken = default!)

@@ -3,6 +3,7 @@
         <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -25,5 +26,11 @@
         <Using Include="MinimalApiWithMediatr.Common.Interfaces" />
         <Using Include="MinimalApiWithMediatr.Route" />
         <Using Include="MinimalApiWithMediatr.Common.Mappings" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Data\ApplicationDbContextExtensions.cs">
+        <DependentUpon>ApplicationDbContext.cs</DependentUpon>
+      </Compile>
     </ItemGroup>
 </Project>

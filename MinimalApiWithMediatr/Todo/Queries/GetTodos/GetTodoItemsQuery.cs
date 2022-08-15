@@ -1,5 +1,4 @@
 ﻿using MinimalApiWithMediatr.Todo.Entities;
-using MinimalApiWithMediatr.Todo.Queries.DTOs;
 
 namespace MinimalApiWithMediatr.Todo.Queries.GetTodosQuery;
 
@@ -18,7 +17,7 @@ public class GetTodoItemsQueryHandler : IHttpRequestHandler<GetTodoItemsQuery>
     public async Task<IResult> Handle(GetTodoItemsQuery request, CancellationToken cancellationToken)
     {
         var todos = await _repository
-            .ListAsync<TodoItem, TodoItemGetDTO>(t => t.Title == request.Name, cancellationToken);
+            .ListAsync<TodoItem>(x => x.Title.Contains(request.Name), cancellationToken);
 
         return Results.Ok(todos);
     }

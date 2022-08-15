@@ -12,7 +12,8 @@ public class ExceptionsFilter<T> : IRouteHandlerFilter where T : IHttpRequest
         }
         catch (ValidationException ex)
         {
-            return Results.BadRequest(new {errors = ex.Errors});
+            return Results.BadRequest(new {succeeded = false, errors = ex.Errors});
         }
+
     }
 }

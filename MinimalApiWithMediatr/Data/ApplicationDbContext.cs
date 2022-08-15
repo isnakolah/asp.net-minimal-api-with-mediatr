@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MinimalApiWithMediatr.Todo.Entities;
+using MinimalApiWithMediatr.Todo.Queries.GetTodosQuery;
 
 namespace MinimalApiWithMediatr.Data;
 
 public class ApplicationDbContext : DbContext
 {
-    public ApplicationDbContext(DbContextOptions options) : base(options)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
     }
 
