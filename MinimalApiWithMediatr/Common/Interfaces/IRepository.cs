@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using MinimalApiWithMediatr.Common.Models;
 
 namespace MinimalApiWithMediatr.Common.Interfaces;
 

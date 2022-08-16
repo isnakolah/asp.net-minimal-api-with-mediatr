@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MinimalApiWithMediatr.Todo.Entities;
-using MinimalApiWithMediatr.Todo.Queries.GetTodosQuery;
 
 namespace MinimalApiWithMediatr.Data;
 

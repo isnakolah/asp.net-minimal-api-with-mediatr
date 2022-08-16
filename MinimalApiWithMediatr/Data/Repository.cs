@@ -1,6 +1,5 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using MinimalApiWithMediatr.Common.Models;
 
 namespace MinimalApiWithMediatr.Data;
 

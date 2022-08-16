@@ -8,7 +8,7 @@ public class CreateTodoCommandValidator : AbstractValidator<CreateTodoItemComman
 {
     public CreateTodoCommandValidator(IRepository repository)
     {
-        RuleFor(x => x.CreateDTO)
+        RuleFor(x => x.CreateItemDTO)
             .SetValidator(new TodoItemCreateDTOValidator(repository));
     }
 }

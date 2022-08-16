@@ -1,6 +1,4 @@
-﻿using MinimalApiWithMediatr.Common.Models;
-
-namespace MinimalApiWithMediatr.Todo.Entities;
+﻿namespace MinimalApiWithMediatr.Todo.Entities;
 
 [Entity(IsTemporal = true)]
 public record TodoGroup : BaseEntity

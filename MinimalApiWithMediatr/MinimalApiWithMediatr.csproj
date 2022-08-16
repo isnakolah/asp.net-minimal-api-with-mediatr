@@ -26,6 +26,7 @@
         <Using Include="MinimalApiWithMediatr.Common.Interfaces" />
         <Using Include="MinimalApiWithMediatr.Route" />
         <Using Include="MinimalApiWithMediatr.Common.Mappings" />
+        <Using Include="MinimalApiWithMediatr.Common.Models" />
     </ItemGroup>
 
     <ItemGroup>

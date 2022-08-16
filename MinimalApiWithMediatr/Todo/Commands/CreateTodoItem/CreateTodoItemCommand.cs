@@ -5,7 +5,7 @@ using MinimalApiWithMediatr.Todo.Entities;
 namespace MinimalApiWithMediatr.Todo.Commands.CreateTodo;
 
 [Command(Routes.Todo.Create)]
-public record CreateTodoItemCommand([FromBody] TodoItemCreateDTO CreateDTO) : IHttpRequest;
+public record CreateTodoItemCommand([FromBody] TodoItemCreateDTO CreateItemDTO) : IHttpRequest;
 
 public class CreateTodoItemCommandHandler : IHttpRequestHandler<CreateTodoItemCommand>
 {
@@ -18,7 +18,7 @@ public class CreateTodoItemCommandHandler : IHttpRequestHandler<CreateTodoItemCo
 
     public async Task<IResult> Handle(CreateTodoItemCommand request, CancellationToken cancellationToken)
     {
-        var (title, description, groupId) = request.CreateDTO;
+        var (title, description, groupId) = request.CreateItemDTO;
 
         var todoItem = new TodoItem
         {

@@ -5,13 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using MinimalApiWithMediatr.Common.Behaviours;
 using MinimalApiWithMediatr.Common.Extensions;
 using MinimalApiWithMediatr.Data;
-using MinimalApiWithMediatr.Todo.Queries.GetTodosQuery;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpClient();
 builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseInMemoryDatabase("Db"));
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddMediatR(x => x.AsScoped(), typeof(Program));
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));

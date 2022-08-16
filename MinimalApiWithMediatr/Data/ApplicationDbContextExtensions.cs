@@ -1,5 +1,4 @@
 ﻿using AutoMapper.QueryableExtensions;
-using MinimalApiWithMediatr.Common.Models;
 
 namespace Microsoft.EntityFrameworkCore.Utils;
 
