@@ -30,7 +30,7 @@ public class CreateTodoItemCommandHandler : IHttpRequestHandler<CreateTodoItemCo
         _context.TodoItems.Add(todoItem);
 
         await _context.SaveChangesAsync(cancellationToken);
-        
-        return Results.Empty;
+
+        return Results.Ok();
     }
 }
