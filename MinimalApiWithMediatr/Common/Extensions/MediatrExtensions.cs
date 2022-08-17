@@ -9,10 +9,13 @@ public static class MediatrExtensions
     public static WebApplication MediateGet<TRequest>(this WebApplication app, string template)
         where TRequest : IHttpRequest
     {
-        app.MapGet(template, async ([FromServices] IMediator mediatr, [AsParameters] TRequest request) =>
-        {
-            return await mediatr.Send(request);
-        }).AddRouteHandlerFilter<ExceptionsFilter<TRequest>>();
+        var (name, groupName) = GetNameAndGroupName<TRequest>();
+
+        app
+            .MapGet(template, async ([AsParameters] TRequest request, IMediator mediatr) => await mediatr.Send(request))
+            .WithName(name)
+            .WithTags(groupName)
+            .AddRouteHandlerFilter<ExceptionsFilter<TRequest>>();
 
         return app;
     }
@@ -20,17 +23,23 @@ public static class MediatrExtensions
     public static WebApplication MediatePost<TRequest>(this WebApplication app, string template)
         where TRequest : IHttpRequest
     {
-        app.MapPost(template, async ([FromServices] IMediator mediatr, [AsParameters] TRequest request) =>
-        {
-            return  await mediatr.Send(request);
-        }).AddRouteHandlerFilter<ExceptionsFilter<TRequest>>();
+        var (name, groupName) = GetNameAndGroupName<TRequest>();
+
+        app
+            .MapPost(template, async ([AsParameters] TRequest request, IMediator mediatr) => await mediatr.Send(request))
+            .WithName(name)
+            .WithTags(groupName)
+            .AddRouteHandlerFilter<ExceptionsFilter<TRequest>>();
 
         return app;
     }
 
-    public static WebApplication MapRoutesFromAssembly(this WebApplication app, Assembly assembly)
+    public static WebApplication MapRoutes(this WebApplication app)
     {
+        var assembly = Assembly.GetExecutingAssembly();
+
         app.MapGetEndpointsFromAssembly(assembly);
+
         app.MapPostEndpointsFromAssembly(assembly);
 
         return app;
@@ -73,5 +82,14 @@ public static class MediatrExtensions
         }
 
         return app;
+    }
+
+    private static (string Name, string GroupName) GetNameAndGroupName<T>()
+    {
+        var splitName = typeof(T).Namespace!.Split('.');
+
+        var (name, groupName) = (splitName[^1], $"{splitName[^3]} Endpoints");
+
+        return (name, groupName);
     }
 }

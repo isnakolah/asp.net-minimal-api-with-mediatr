@@ -1,4 +1,3 @@
-using System.Reflection;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -15,10 +14,12 @@ builder.Services.AddMediatR(x => x.AsScoped(), typeof(Program));
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
 builder.Services.AddScoped<IRepository, Repository>();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.MapRoutesFromAssembly(Assembly.GetExecutingAssembly());
-//app.UseMapper();
+app.UseSwagger().UseSwaggerUI();
+app.MapRoutes();
 
 app.Run();
